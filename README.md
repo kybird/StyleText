@@ -29,6 +29,7 @@ forked from [PFCCLab/StyleText](https://github.com/PFCCLab/StyleText)
 
 알파값이 글자와 위치가 맞지않음.
 
-대안으로..충분히 긴 배경이미지를 인풋으로 제공해주면 될것 같기도함
+대안으로..충분히 긴 배경이미지를 인풋으로 제공해주면 될것 같기도한데 애매하지 ㅋ
+
 
 

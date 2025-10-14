@@ -148,21 +148,23 @@ async def generate_image(
         cv2.imwrite("fake_text.png", fake_text_bgr)
         cv2.imwrite("fake_sk.png", fake_sk)
         cv2.imwrite("fake_fusion.png", fake_fusion)
-        # 3. fake_text_bgr에서 직접 알파 마스크 생성
-        # 배경색(128, 128, 128)에 가까운 영역을 투명하게 처리
-        gray_background_color = 128
-        # 각 채널이 120~135 범위에 있는 픽셀을 배경으로 간주
-        lower_bound = np.array([120, 120, 120])
-        upper_bound = np.array([135, 135, 135])
-        
-        # 배경 영역은 1, 글자 영역은 0인 마스크 생성
-        background_mask = cv2.inRange(fake_text_bgr, lower_bound, upper_bound)
-        # 마스크 반전 (배경: 0, 글자: 255)
-        alpha_mask = cv2.bitwise_not(background_mask)
 
-        b_channel, g_channel, r_channel = cv2.split(fake_text_bgr)
-        # alpha_mask는 2D 배열이므로 3D로 확장할 필요 없음
-        fake_text_bgra = cv2.merge((b_channel, g_channel, r_channel, alpha_mask))
+        # 1. fake_text 이미지를 그레이스케일로 변환합니다.
+        #    배경(128)은 투명하게, 텍스트(0)는 불투명하게 만들기 위한 마스크를 생성합니다.
+        gray_img = cv2.cvtColor(fake_text_bgr, cv2.COLOR_BGR2GRAY)
+        
+        # 2. 그레이스케일 값을 알파 값으로 변환합니다.
+        #    - 128(배경) -> 0 (완전 투명)
+        #    - 0(텍스트) -> 255 (완전 불투명)
+        #    (128 - g) * 2 연산을 통해 부드러운 경계의 알파 마스크를 생성합니다.
+        alpha_mask = np.clip((128 - gray_img.astype(np.int16)) * 2, 0, 255).astype(np.uint8)
+
+        # 3. NumPy를 사용해 BGR 이미지와 알파 채널을 결합합니다.
+        # (h, w, 4) 모양의 BGRA 이미지로 만듭니다.
+        fake_text_bgra = np.dstack((fake_text_bgr, alpha_mask))
+
+        # 결과 저장
+        cv2.imwrite("fake_text_transparent.png", fake_text_bgra)
 
         # 4. Resize the final image back to the original input size
         # INTER_LANCZOS4 is a high-quality upscaling interpolation method
