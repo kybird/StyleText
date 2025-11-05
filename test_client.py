@@ -2,11 +2,11 @@ import requests
 import os
 
 # --- Configuration ---
-BASE_URL = "http://127.0.0.1:8000"
+BASE_URL = "http://127.0.0.1:8003"
 ENDPOINT = "/generate"
 IMAGE_PATH = os.path.join("examples", "style_images", "zoom_2.jpg")
 OUTPUT_PATH = "generated_image.png"  # 투명도를 지원하는 PNG로 변경
-TEST_TEXT = "1234똥개바보멍청이"
+TEST_TEXT = "누가 투자안해주냐 십억"
 TEST_LANG = "ko"
 
 def test_generate_api():

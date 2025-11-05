@@ -7,6 +7,7 @@ import uuid
 from enum import Enum
 from fastapi import FastAPI, File, UploadFile, Form, HTTPException
 from fastapi.responses import StreamingResponse
+from fastapi.middleware.cors import CORSMiddleware
 from PIL import Image
 from pydantic import BaseModel
 
@@ -68,6 +69,15 @@ def initialize_synthesiser(config_path: str = "configs/config.yml") -> ImageSynt
 app = FastAPI(
     title="StyleText Image Generation API",
     description="API for generating styled text images",
+)
+
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # 모든 origin 허용 (개발용), 프로덕션에서는 특정 도메인으로 제한
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 @app.on_event("startup")

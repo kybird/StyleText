@@ -1,0 +1,54 @@
+# .dockerignore
+
+# 1. 가상환경 폴더
+#   - 로컬 개발용 의존성 파일들이라 이미지에 포함될 필요가 없습니다.
+venv/
+.venv/
+env/
+.env/
+venv.bak/
+
+# 2. 파이썬 캐시 파일
+#   - 실행 시 자동으로 생성되는 파일들이라 미리 포함할 필요가 없습니다.
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# 3. IDE 및 에디터 설정 파일
+#   - 개발 환경에만 필요한 설정 파일입니다.
+.idea/
+.vscode/
+.project
+.pydevproject
+.settings/
+
+# 4. 테스트 관련 파일 및 폴더
+#   - 테스트 코드나 결과물은 최종 이미지에 필요 없습니다.
+.pytest_cache/
+.tox/
+htmlcov/
+.coverage
+pytestdebug.log
+
+# 5. 빌드 및 배포 관련 파일
+dist/
+build/
+*.egg-info/
+*.egg
+
+# 6. 민감 정보 및 기타 파일
+#   - 환경 변수나 OS 특정 파일은 제외하는 것이 안전합니다.
+.env
+*.log
+.DS_Store
+
+# 프로젝트관련
+output_data/
+style_text_models.zip
+
+Dockerfile
+docker-compose.yml
+Docker/
+doc/
+*.md
